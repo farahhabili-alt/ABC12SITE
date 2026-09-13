@@ -5,7 +5,7 @@
 // ---- 1. CONFIGURE THIS ----
 // Paste the URL you get after deploying the Google Apps Script
 // web app (see SETUP-GOOGLE-SHEETS.md) between the quotes below.
-const SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbz71c-_mcPe4ut6mpuaqiG5Jg5qFYO85RC-NBynK7qQuVNZ7OrnHckdJgYO_EfloQ1Faw/exec";
+const SHEET_WEBHOOK_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
 
 // ---- Mobile nav toggle ----
 document.addEventListener("DOMContentLoaded", () => {
@@ -123,17 +123,33 @@ function initRegisterForm() {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    // Combine the "which day(s)" checkboxes into one readable value.
+    const dayLabels = { attendDay1: "Day 1", attendDay2: "Day 2", attendDay3: "Day 3" };
+    const attendanceDays = Object.keys(dayLabels)
+      .filter((key) => form.querySelector(`[name="${key}"]`)?.checked)
+      .map((key) => dayLabels[key]);
+
+    const errorEl = document.getElementById("attendance-days-error");
+    if (attendanceDays.length === 0) {
+      if (errorEl) errorEl.style.display = "block";
+      document.getElementById("attendance-days-field")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    if (errorEl) errorEl.style.display = "none";
+
     // Capture the values before sendToSheet resets the form, so we can
     // display them on the confirmation panel.
     const snapshot = Object.fromEntries(new FormData(form).entries());
+    snapshot.attendanceDays = attendanceDays.join(", ");
 
-    const success = await sendToSheet(form, "registration", statusEl);
+    const success = await sendToSheet(form, "registration", statusEl, { attendanceDays: snapshot.attendanceDays });
     if (!success || !confirmationPanel) return;
 
     document.getElementById("conf-fullName").textContent = snapshot.fullName || "—";
     document.getElementById("conf-email").textContent = snapshot.email || "—";
     document.getElementById("conf-phone").textContent = snapshot.phone || "—";
     document.getElementById("conf-needsTransport").textContent = snapshot.needsTransport || "—";
+    document.getElementById("conf-attendanceDays").textContent = snapshot.attendanceDays || "—";
     document.getElementById("conf-paymentMethod").textContent = snapshot.paymentMethod || "—";
 
     const code = "ABC12-" + Date.now().toString().slice(-6);
