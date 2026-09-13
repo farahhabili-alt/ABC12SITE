@@ -5,7 +5,7 @@
 // ---- 1. CONFIGURE THIS ----
 // Paste the URL you get after deploying the Google Apps Script
 // web app (see SETUP-GOOGLE-SHEETS.md) between the quotes below.
-const SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbz71c-_mcPe4ut6mpuaqiG5Jg5qFYO85RC-NBynK7qQuVNZ7OrnHckdJgYO_EfloQ1Faw/exec";
+const SHEET_WEBHOOK_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
 
 // ---- Mobile nav toggle ----
 document.addEventListener("DOMContentLoaded", () => {
@@ -118,10 +118,31 @@ function initRegisterForm() {
   const form = document.getElementById("registration-form");
   if (!form) return;
   const statusEl = document.getElementById("register-status");
+  const confirmationPanel = document.getElementById("confirmation-panel");
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    await sendToSheet(form, "registration", statusEl);
+
+    // Capture the values before sendToSheet resets the form, so we can
+    // display them on the confirmation panel.
+    const snapshot = Object.fromEntries(new FormData(form).entries());
+
+    const success = await sendToSheet(form, "registration", statusEl);
+    if (!success || !confirmationPanel) return;
+
+    document.getElementById("conf-fullName").textContent = snapshot.fullName || "—";
+    document.getElementById("conf-email").textContent = snapshot.email || "—";
+    document.getElementById("conf-phone").textContent = snapshot.phone || "—";
+    document.getElementById("conf-needsTransport").textContent = snapshot.needsTransport || "—";
+    document.getElementById("conf-paymentMethod").textContent = snapshot.paymentMethod || "—";
+
+    const code = "ABC12-" + Date.now().toString().slice(-6);
+    document.getElementById("conf-code").textContent = "Confirmation #" + code;
+
+    form.style.display = "none";
+    confirmationPanel.style.display = "block";
+    confirmationPanel.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 }
+document.addEventListener("DOMContentLoaded", initRegisterForm);
 document.addEventListener("DOMContentLoaded", initRegisterForm);
