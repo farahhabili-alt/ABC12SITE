@@ -426,6 +426,35 @@ a:focus-visible, button:focus-visible {
 .form-status.error { background: #f6e6e0; border: 1px solid var(--clay); color: #7a3018; }
 .form-status.loading { background: var(--marble-dim); border: 1px solid var(--ink-line); }
 
+.confirmation-panel {
+  background: #fff;
+  border: 1px solid var(--ink-line);
+  border-top: 4px solid var(--bronze);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border-radius: var(--radius);
+  max-width: 700px;
+}
+.confirmation-head { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 1.6rem; }
+.confirmation-check {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--laurel); color: #fff;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.confirmation-code { font-family: var(--font-ui); color: var(--clay); letter-spacing: 0.03em; }
+.confirmation-table { width: 100%; border-collapse: collapse; margin: 1.4rem 0; }
+.confirmation-table th, .confirmation-table td {
+  text-align: left; padding: 0.55rem 0.4rem; border-bottom: 1px solid var(--ink-line);
+  font-size: 0.98rem; vertical-align: top;
+}
+.confirmation-table th { font-family: var(--font-ui); font-weight: 500; color: #6b6252; width: 42%; }
+.confirmation-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.6rem; }
+@media print {
+  .site-header, .site-footer, .confirmation-actions, .hero, .nav-toggle { display: none !important; }
+  section { padding: 0; }
+  body { background: #fff; }
+  .confirmation-panel { border: none; padding: 0; max-width: none; }
+}
+
 /* ---------------- Agenda path ---------------- */
 
 .labor-path {
