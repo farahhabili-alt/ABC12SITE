@@ -5,7 +5,7 @@
 // ---- 1. CONFIGURE THIS ----
 // Paste the URL you get after deploying the Google Apps Script
 // web app (see SETUP-GOOGLE-SHEETS.md) between the quotes below.
-const SHEET_WEBHOOK_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+const SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbz71c-_mcPe4ut6mpuaqiG5Jg5qFYO85RC-NBynK7qQuVNZ7OrnHckdJgYO_EfloQ1Faw/exec";
 
 // ---- Mobile nav toggle ----
 document.addEventListener("DOMContentLoaded", () => {
