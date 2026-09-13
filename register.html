@@ -102,6 +102,24 @@
             </label>
           </div>
         </fieldset>
+        <fieldset id="attendance-days-field">
+          <legend>Which day(s) will you attend?</legend>
+          <div class="choice-row" role="group" aria-label="Which day(s) will you attend?">
+            <label class="choice">
+              <input type="checkbox" name="attendDay1" value="Yes">
+              <span><strong>Day 1</strong></span>
+            </label>
+            <label class="choice">
+              <input type="checkbox" name="attendDay2" value="Yes">
+              <span><strong>Day 2</strong></span>
+            </label>
+            <label class="choice">
+              <input type="checkbox" name="attendDay3" value="Yes">
+              <span><strong>Day 3</strong></span>
+            </label>
+          </div>
+          <p id="attendance-days-error" class="hint" style="display:none; color: var(--clay);">Please select at least one day.</p>
+        </fieldset>
         <div class="field">
           <label for="joinDate">When did you join AIESEC?</label>
           <input type="text" id="joinDate" name="joinDate" placeholder="e.g. March 2024" required>
@@ -201,6 +219,7 @@
           <tr><th>Email</th><td id="conf-email"></td></tr>
           <tr><th>Phone</th><td id="conf-phone"></td></tr>
           <tr><th>Needs transportation</th><td id="conf-needsTransport"></td></tr>
+          <tr><th>Attending</th><td id="conf-attendanceDays"></td></tr>
           <tr><th>Payment method</th><td id="conf-paymentMethod"></td></tr>
           <tr><th>Dates</th><td>24, 25 &amp; 26 September 2026</td></tr>
           <tr><th>Venue</th><td>Auberge de Jeunesse Djurdjura — Ain El Hammam (ex Michelet)</td></tr>
